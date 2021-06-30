@@ -1,6 +1,7 @@
-mob story
-titus the fox
-main character is ex-mob
-first level he is in the street and kind of has to escape street goons
-maybe has to do w/ a girl
-easy game to beat
+# mob story
+
+* Titus the Fox
+* Main character is ex-mob
+* First level he is in the street and kind of has to escape street goons
+* Maybe has to do w/ a girl
+* Easy game to beat
