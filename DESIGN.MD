@@ -1,4 +1,5 @@
 # mob story
+Concept by Robert Phares ([rjphares](https://github.com/rjphares))
 
 * Titus the Fox
 * Main character is ex-mob
