@@ -7,3 +7,5 @@ Concept by Robert Phares ([rjphares](https://github.com/rjphares))
 * Maybe has to do w/ a girl
 * Easy game to beat
 * Like a graphic novel
+* Defintely want a gear level
+* Maybe an abandoned factory or something
