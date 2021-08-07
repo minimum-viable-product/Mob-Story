@@ -9,3 +9,4 @@ Concept by Robert Phares ([rjphares](https://github.com/rjphares))
 * Like a graphic novel
 * Defintely want a gear level
 * Maybe an abandoned factory or something
+* Add water level
