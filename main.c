@@ -1,13 +1,24 @@
 
 #include "SDL.h"
+#include "SDL2_rotozoom.h"
 #include "stdio.h"
 #include "stdlib.h"
 #include "stdbool.h"
+#include "time.h"
+
 
 //global variables
 SDL_Window* gWindow = NULL;         //The window we'll be rendering to
 SDL_Surface* gScreenSurface = NULL; //The surface contained by the window
-SDL_Surface* gHelloWorld = NULL;    //The image we will load and show on the screen
+SDL_Surface* gGear = NULL;    //The image we will load and show on the screen
+SDL_Surface* gSprite = NULL;
+SDL_Renderer* gMainRenderer = NULL;
+SDL_Texture* gTexture = NULL;
+SDL_Rect gSrcRectGear = { 0,0,64,64 };
+SDL_Rect gSrcRectSprite = { 0,0,32,20 };
+SDL_Rect gDstRectSprite = { 0,0,32,20 };
+SDL_Rect gDstRectLeft = { 0,0,64*6,64*6 };
+SDL_Rect gDstRectRight = { 46*6,0,64*6,64*6 };
 
 //functions
 bool init();        //start up SDL and create window
@@ -15,22 +26,75 @@ bool loadMedia();   //loads media
 void close();       //frees media and shuts down SDL
 
 int main(int argc, char* argv[]) {
-
+    SDL_Event event;
+    bool quit = false;
+    int rotate_angle = 0;
+    int offsetX = 0;
+    int offsetY = 0;
+    clock_t t;
     if (!init())
     {
         printf("Failed to initialize!\n");
+        return 1;
     }
-    else
+    if (!loadMedia())
     {
-        if (!loadMedia())
+        printf("Failed to load media!\n");
+        return 1;
+    }
+    //set background to blue
+    SDL_SetRenderDrawColor(gMainRenderer, 0, 0, 255, 0);
+    SDL_RenderClear(gMainRenderer);
+    t = clock();
+    while (!quit) 
+    {
+        if ((clock() - t) >= 500)
         {
-            printf("Failed to load media!\n");
+            SDL_RenderClear(gMainRenderer);
+            SDL_RenderPresent(gMainRenderer);
+            gTexture = SDL_CreateTextureFromSurface(gMainRenderer, gGear);
+            SDL_RenderCopyEx(gMainRenderer, gTexture, &gSrcRectGear, &gDstRectLeft, rotate_angle + 23, NULL, SDL_FLIP_NONE);
+            SDL_RenderCopyEx(gMainRenderer, gTexture, &gSrcRectGear, &gDstRectRight, -rotate_angle, NULL, SDL_FLIP_NONE);
+            rotate_angle += 10;
+            if (rotate_angle == 360)  rotate_angle = 0;
+            t = clock();
         }
         else
         {
-            SDL_BlitSurface(gHelloWorld, NULL, gScreenSurface, NULL);
-            SDL_UpdateWindowSurface(gWindow);
-            SDL_Delay(2000);
+            SDL_RenderClear(gMainRenderer);
+            SDL_RenderPresent(gMainRenderer);
+            gTexture = SDL_CreateTextureFromSurface(gMainRenderer, gGear);
+            SDL_RenderCopyEx(gMainRenderer, gTexture, &gSrcRectGear, &gDstRectLeft, rotate_angle + 23, NULL, SDL_FLIP_NONE);
+            SDL_RenderCopyEx(gMainRenderer, gTexture, &gSrcRectGear, &gDstRectRight, -rotate_angle, NULL, SDL_FLIP_NONE);
+        }
+        gTexture = SDL_CreateTextureFromSurface(gMainRenderer, gSprite);
+        SDL_RenderCopy(gMainRenderer, gTexture, &gSrcRectSprite, &gDstRectSprite);
+        SDL_RenderPresent(gMainRenderer);
+        SDL_Delay(33);
+        while (SDL_PollEvent(&event))
+        {
+            if (event.type == SDL_KEYDOWN)
+            {
+                switch (event.key.keysym.sym)
+                {
+                case SDLK_w:
+                    gDstRectSprite.y -= 20;
+                    break;
+                case SDLK_a:
+                    gDstRectSprite.x -= 32;
+                    break;
+                case SDLK_s:
+                    gDstRectSprite.y += 20;
+                    break;
+                case SDLK_d:
+                    gDstRectSprite.x += 32;
+                    break;
+                }
+            }
+            if (event.type == SDL_QUIT)
+            {
+                quit = true;
+            }
         }
     }
     close();
@@ -52,7 +116,7 @@ bool init()
             SDL_WINDOWPOS_UNDEFINED,            // initial x position
             SDL_WINDOWPOS_UNDEFINED,            // initial y position
             640,                                // width, in pixels
-            480,                                // height, in pixels
+            400,                                // height, in pixels
             SDL_WINDOW_SHOWN                    // flags - see below
         );
         if (gWindow == NULL)
@@ -62,7 +126,7 @@ bool init()
         }
         else
         {
-            gScreenSurface = SDL_GetWindowSurface(gWindow);
+            gMainRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
         }
     }
     return true;
@@ -71,10 +135,16 @@ bool init()
 //loads media
 bool loadMedia()
 {
-    gHelloWorld = IMG_Load("gear.png");
-    if (gHelloWorld == NULL)
+    gGear = IMG_Load("gear.png");
+    if (gGear == NULL)
     {
-        printf("Unable to load image %s! SDL Error: %s\n", "02_getting_an_image_on_the_screen/hello_world.bmp", SDL_GetError());
+        printf("Unable to load image %s! SDL Error: %s\n", "gear.png", SDL_GetError());
+        return false;
+    }
+    gSprite = IMG_Load("ex_mob_member_idle.png");
+    if (gGear == NULL)
+    {
+        printf("Unable to load image %s! SDL Error: %s\n", "ex_mob_member_idle.png", SDL_GetError());
         return false;
     }
     return true;
@@ -83,9 +153,12 @@ bool loadMedia()
 //frees media and shuts down SDL
 void close()
 {
-    SDL_FreeSurface(gHelloWorld);
-    gHelloWorld = NULL;
-
+    SDL_FreeSurface(gGear);
+    gGear = NULL;
+    SDL_DestroyTexture(gTexture);
+    gTexture = NULL;
+    SDL_DestroyRenderer(gMainRenderer);
+    gMainRenderer = NULL;
     SDL_DestroyWindow(gWindow);
     gWindow = NULL;
 
