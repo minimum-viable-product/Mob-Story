@@ -8,6 +8,10 @@ Concept by Robert Phares ([rjphares](https://github.com/rjphares))
 * Easy game to beat
 * Like a graphic novel
 * Defintely want a gear level
+  - gears as objects that cant go through
+  - he can touch one gear at a time
+  - if both gears squish him he dies
+  - sneak through or get squished(dead)
 * Maybe an abandoned factory or something
 * Add water level
 * Up down platformer
