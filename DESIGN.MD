@@ -9,7 +9,8 @@ Concept by Robert Phares ([rjphares](https://github.com/rjphares))
 * Like a graphic novel
 * Defintely want a gear level
   - gears as objects that cant go through
-  - he can touch one gear at a time
+  - he can touch one gear at a time (should move him)
+  - he sits inside one gear and it will push him to other side
   - if both gears squish him he dies
   - sneak through or get squished(dead)
 * Maybe an abandoned factory or something
