@@ -23,13 +23,12 @@ SDL_Rect gDstRectRight  = { 46*6,0,64*6,64*6 };
 //functions
 bool init();        //start up SDL and create window
 bool loadMedia();   //loads media
-void close();       //frees media and shuts down SDL
+int  close();       //frees media and shuts down SDL
 
 
 int main(int argc, char* argv[])
 {
     SDL_Event event;
-    bool quit = false;
     int rotate_angle = 0;
     int offsetX = 0;
     int offsetY = 0;
@@ -51,7 +50,7 @@ int main(int argc, char* argv[])
     SDL_RenderClear(gMainRenderer);
     t = clock();
 
-    while (!quit)
+    while (true)
     {
         if ((clock() - t) >= 500)
         {
@@ -99,12 +98,11 @@ int main(int argc, char* argv[])
             }
             if (event.type == SDL_QUIT)
             {
-                quit = true;
+                return close();
             }
         }
     }
-    close();
-    return 0;
+    return 1;  // Should never reach here
 }
 
 
@@ -161,7 +159,7 @@ bool loadMedia()
 
 
 //frees media and shuts down SDL
-void close()
+int close()
 {
     SDL_FreeSurface(gGear);
     gGear = NULL;
@@ -173,4 +171,5 @@ void close()
     gWindow = NULL;
 
     SDL_Quit();
+    return 0;
 }
