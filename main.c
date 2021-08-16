@@ -31,8 +31,8 @@ int main(int argc, char* argv[])
 {
     SDL_Event event;
     int rotate_angle = 0;
-    int offsetX = 0;
-    int offsetY = 0;
+    //int offsetX = 0;
+    //int offsetY = 0;
     clock_t t;
 
     if (!init())
