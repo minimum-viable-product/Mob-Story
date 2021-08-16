@@ -1,36 +1,39 @@
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <time.h>
 #include "SDL.h"
-#include "stdio.h"
-#include "stdlib.h"
-#include "stdbool.h"
-#include "time.h"
 
 
 //global variables
-SDL_Window* gWindow = NULL;         //The window we'll be rendering to
-SDL_Surface* gScreenSurface = NULL; //The surface contained by the window
-SDL_Surface* gGear = NULL;    //The image we will load and show on the screen
-SDL_Surface* gSprite = NULL;
-SDL_Renderer* gMainRenderer = NULL;
-SDL_Texture* gTexture = NULL;
-SDL_Rect gSrcRectGear = { 0,0,64,64 };
+SDL_Window*   gWindow        = NULL; //The window we'll be rendering to
+SDL_Surface*  gScreenSurface = NULL; //The surface contained by the window
+SDL_Surface*  gGear          = NULL; //The image to load and show on the screen
+SDL_Surface*  gSprite        = NULL;
+SDL_Renderer* gMainRenderer  = NULL;
+SDL_Texture*  gTexture       = NULL;
+SDL_Rect gSrcRectGear   = { 0,0,64,64 };
 SDL_Rect gSrcRectSprite = { 0,0,32,20 };
 SDL_Rect gDstRectSprite = { 0,0,32,20 };
-SDL_Rect gDstRectLeft = { 0,0,64*6,64*6 };
-SDL_Rect gDstRectRight = { 46*6,0,64*6,64*6 };
+SDL_Rect gDstRectLeft   = { 0,0,64*6,64*6 };
+SDL_Rect gDstRectRight  = { 46*6,0,64*6,64*6 };
 
 //functions
 bool init();        //start up SDL and create window
 bool loadMedia();   //loads media
 void close();       //frees media and shuts down SDL
 
-int main(int argc, char* argv[]) {
+
+int main(int argc, char* argv[])
+{
     SDL_Event event;
     bool quit = false;
     int rotate_angle = 0;
     int offsetX = 0;
     int offsetY = 0;
     clock_t t;
+
     if (!init())
     {
         printf("Failed to initialize!\n");
@@ -41,10 +44,12 @@ int main(int argc, char* argv[]) {
         printf("Failed to load media!\n");
         return 1;
     }
+
     //set background to blue
     SDL_SetRenderDrawColor(gMainRenderer, 0, 0, 255, 0);
     SDL_RenderClear(gMainRenderer);
     t = clock();
+
     while (!quit)
     {
         if ((clock() - t) >= 500)
@@ -70,6 +75,7 @@ int main(int argc, char* argv[]) {
         SDL_RenderCopy(gMainRenderer, gTexture, &gSrcRectSprite, &gDstRectSprite);
         SDL_RenderPresent(gMainRenderer);
         SDL_Delay(33);
+
         while (SDL_PollEvent(&event))
         {
             if (event.type == SDL_KEYDOWN)
@@ -100,6 +106,7 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
+
 //start up SDL and create window
 bool init()
 {
@@ -118,6 +125,7 @@ bool init()
             400,                                // height, in pixels
             SDL_WINDOW_SHOWN                    // flags - see below
         );
+
         if (gWindow == NULL)
         {
             printf("Could not create window: %s\n", SDL_GetError());
@@ -130,6 +138,7 @@ bool init()
     }
     return true;
 }
+
 
 //loads media
 bool loadMedia()
@@ -148,6 +157,7 @@ bool loadMedia()
     }
     return true;
 }
+
 
 //frees media and shuts down SDL
 void close()
