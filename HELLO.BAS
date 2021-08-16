@@ -1,2 +1,0 @@
-CLS : PRINT "hello~"
-
