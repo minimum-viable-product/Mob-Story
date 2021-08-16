@@ -12,7 +12,7 @@ SDL_Surface*  gScreenSurface = NULL; //The surface contained by the window
 SDL_Surface*  gGear          = NULL; //The image of gear
 SDL_Surface*  gSprite        = NULL; //The image of person
 SDL_Surface*  gWoodTile      = NULL; //The image of wood tile
-SDL_Renderer* gMainRenderer  = NULL; 
+SDL_Renderer* gMainRenderer  = NULL;
 SDL_Texture*  gTexture       = NULL;
 SDL_Rect gSrcRectGear   = { 0,0,64,64 };
 SDL_Rect gSrcRectSprite = { 0,0,32,20 };
@@ -25,6 +25,7 @@ SDL_Rect gDstRectRight  = { 46*6,0,64*6,64*6 };
 bool init();        //start up SDL and create window
 bool loadMedia();   //loads media
 int  close();       //frees media and shuts down SDL
+bool showError();
 
 
 int main(int argc, char* argv[])
@@ -135,11 +136,7 @@ int main(int argc, char* argv[])
 //start up SDL and create window
 bool init()
 {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0)
-    {
-        printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
-        return false;
-    }
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) return showError();
     else
     {
         gWindow = SDL_CreateWindow(
@@ -169,23 +166,14 @@ bool init()
 bool loadMedia()
 {
     gGear = IMG_Load("gear.png");
-    if (gGear == NULL)
-    {
-        printf("Unable to load image %s! SDL Error: %s\n", "gear.png", SDL_GetError());
-        return false;
-    }
+    if (gGear == NULL) return showError();
+
     gSprite = IMG_Load("ex_mob_member_idle.png");
-    if (gGear == NULL)
-    {
-        printf("Unable to load image %s! SDL Error: %s\n", "ex_mob_member_idle.png", SDL_GetError());
-        return false;
-    }
+    if (gSprite == NULL) return showError();
+
     gWoodTile = IMG_Load("wood_tile.png");
-    if (gWoodTile == NULL)
-    {
-        printf("Unable to load image %s! SDL Error: %s\n", "wood_tile.png", SDL_GetError());
-        return false;
-    }
+    if (gWoodTile == NULL) return showError();
+
     return true;
 }
 
@@ -206,4 +194,11 @@ int close()
 
     SDL_Quit();
     return 0;
+}
+
+
+bool showError()
+{
+    printf("SDL Error: %s\n", SDL_GetError());
+    return false;
 }
