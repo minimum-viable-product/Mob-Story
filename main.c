@@ -6,7 +6,7 @@
 #include "SDL.h"
 #include "SDL_image.h"
 
-
+//blah
 //global variables
 SDL_Window*   gWindow        = NULL; //The window we'll be rendering to
 SDL_Surface*  gScreenSurface = NULL; //The surface contained by the window
