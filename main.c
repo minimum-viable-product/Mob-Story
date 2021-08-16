@@ -1,6 +1,5 @@
 
 #include "SDL.h"
-#include "SDL2_rotozoom.h"
 #include "stdio.h"
 #include "stdlib.h"
 #include "stdbool.h"
@@ -46,7 +45,7 @@ int main(int argc, char* argv[]) {
     SDL_SetRenderDrawColor(gMainRenderer, 0, 0, 255, 0);
     SDL_RenderClear(gMainRenderer);
     t = clock();
-    while (!quit) 
+    while (!quit)
     {
         if ((clock() - t) >= 500)
         {
