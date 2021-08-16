@@ -14,12 +14,12 @@ SDL_Surface*  gSprite        = NULL; //The image of person
 SDL_Surface*  gWoodTile      = NULL; //The image of wood tile
 SDL_Renderer* gMainRenderer  = NULL;
 SDL_Texture*  gTexture       = NULL;
-SDL_Rect gSrcRectGear   = { 0,0,64,64 };
-SDL_Rect gSrcRectSprite = { 0,0,32,20 };
-SDL_Rect gDstRectSprite = { 0,0,32,20 };
+SDL_Rect gSrcRectGear     = { 0,0,64,64 };
+SDL_Rect gSrcRectSprite   = { 0,0,32,20 };
+SDL_Rect gDstRectSprite   = { 0,0,32,20 };
 SDL_Rect gDstRectWoodTile = { 0,0,32,20 };
-SDL_Rect gDstRectLeft   = { 0,0,64*6,64*6 };
-SDL_Rect gDstRectRight  = { 46*6,0,64*6,64*6 };
+SDL_Rect gDstRectLeft     = { 0,0,64*6,64*6 };
+SDL_Rect gDstRectRight    = { 46*6,0,64*6,64*6 };
 
 //functions
 bool init();        //start up SDL and create window
