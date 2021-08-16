@@ -6,17 +6,18 @@
 #include "SDL.h"
 #include "SDL_image.h"
 
-//blah
 //global variables
 SDL_Window*   gWindow        = NULL; //The window we'll be rendering to
 SDL_Surface*  gScreenSurface = NULL; //The surface contained by the window
-SDL_Surface*  gGear          = NULL; //The image to load and show on the screen
-SDL_Surface*  gSprite        = NULL;
-SDL_Renderer* gMainRenderer  = NULL;
+SDL_Surface*  gGear          = NULL; //The image of gear
+SDL_Surface*  gSprite        = NULL; //The image of person
+SDL_Surface*  gWoodTile      = NULL; //The image of wood tile
+SDL_Renderer* gMainRenderer  = NULL; 
 SDL_Texture*  gTexture       = NULL;
 SDL_Rect gSrcRectGear   = { 0,0,64,64 };
 SDL_Rect gSrcRectSprite = { 0,0,32,20 };
 SDL_Rect gDstRectSprite = { 0,0,32,20 };
+SDL_Rect gDstRectWoodTile = { 0,0,32,20 };
 SDL_Rect gDstRectLeft   = { 0,0,64*6,64*6 };
 SDL_Rect gDstRectRight  = { 46*6,0,64*6,64*6 };
 
@@ -52,10 +53,24 @@ int main(int argc, char* argv[])
 
     while (true)
     {
+        gDstRectWoodTile.x = 0;
+        gDstRectWoodTile.y = 0;
         if ((clock() - t) >= 500)
         {
             SDL_RenderClear(gMainRenderer);
             SDL_RenderPresent(gMainRenderer);
+            SDL_SetRenderDrawColor(gMainRenderer, 0, 0, 255, 0);
+            SDL_RenderClear(gMainRenderer);
+            gTexture = SDL_CreateTextureFromSurface(gMainRenderer, gWoodTile);
+            for (int i = 0; i < 20; ++i)
+            {
+                for (int j = 0; j < 20; ++j)
+                {
+                    gDstRectWoodTile.x = 32 * i;
+                    gDstRectWoodTile.y = 20 * j;
+                    SDL_RenderCopy(gMainRenderer, gTexture, &gSrcRectSprite, &gDstRectWoodTile);
+                }
+            }
             gTexture = SDL_CreateTextureFromSurface(gMainRenderer, gGear);
             SDL_RenderCopyEx(gMainRenderer, gTexture, &gSrcRectGear, &gDstRectLeft, rotate_angle + 23, NULL, SDL_FLIP_NONE);
             SDL_RenderCopyEx(gMainRenderer, gTexture, &gSrcRectGear, &gDstRectRight, -rotate_angle, NULL, SDL_FLIP_NONE);
@@ -67,6 +82,18 @@ int main(int argc, char* argv[])
         {
             SDL_RenderClear(gMainRenderer);
             SDL_RenderPresent(gMainRenderer);
+            SDL_SetRenderDrawColor(gMainRenderer, 0, 0, 255, 0);
+            SDL_RenderClear(gMainRenderer);
+            gTexture = SDL_CreateTextureFromSurface(gMainRenderer, gWoodTile);
+            for (int i = 0; i < 32; ++i)
+            {
+                for (int j = 0; j < 20; ++j)
+                {
+                    gDstRectWoodTile.x = 32 * i;
+                    gDstRectWoodTile.y = 20 * j;
+                    SDL_RenderCopy(gMainRenderer, gTexture, &gSrcRectSprite, &gDstRectWoodTile);
+                }
+            }
             gTexture = SDL_CreateTextureFromSurface(gMainRenderer, gGear);
             SDL_RenderCopyEx(gMainRenderer, gTexture, &gSrcRectGear, &gDstRectLeft, rotate_angle + 23, NULL, SDL_FLIP_NONE);
             SDL_RenderCopyEx(gMainRenderer, gTexture, &gSrcRectGear, &gDstRectRight, -rotate_angle, NULL, SDL_FLIP_NONE);
@@ -74,8 +101,7 @@ int main(int argc, char* argv[])
         gTexture = SDL_CreateTextureFromSurface(gMainRenderer, gSprite);
         SDL_RenderCopy(gMainRenderer, gTexture, &gSrcRectSprite, &gDstRectSprite);
         SDL_RenderPresent(gMainRenderer);
-        SDL_Delay(33);
-
+        SDL_Delay(100);
         while (SDL_PollEvent(&event))
         {
             if (event.type == SDL_KEYDOWN)
@@ -154,6 +180,12 @@ bool loadMedia()
         printf("Unable to load image %s! SDL Error: %s\n", "ex_mob_member_idle.png", SDL_GetError());
         return false;
     }
+    gWoodTile = IMG_Load("wood_tile.png");
+    if (gWoodTile == NULL)
+    {
+        printf("Unable to load image %s! SDL Error: %s\n", "wood_tile.png", SDL_GetError());
+        return false;
+    }
     return true;
 }
 
@@ -163,6 +195,8 @@ int close()
 {
     SDL_FreeSurface(gGear);
     gGear = NULL;
+    SDL_FreeSurface(gWoodTile);
+    gWoodTile = NULL;
     SDL_DestroyTexture(gTexture);
     gTexture = NULL;
     SDL_DestroyRenderer(gMainRenderer);
