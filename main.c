@@ -137,27 +137,18 @@ int main(int argc, char* argv[])
 bool init()
 {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) return showError();
-    else
-    {
-        gWindow = SDL_CreateWindow(
-            "An SDL2 window",                   // window title
-            SDL_WINDOWPOS_UNDEFINED,            // initial x position
-            SDL_WINDOWPOS_UNDEFINED,            // initial y position
-            640,                                // width, in pixels
-            400,                                // height, in pixels
-            SDL_WINDOW_SHOWN                    // flags - see below
-        );
 
-        if (gWindow == NULL)
-        {
-            printf("Could not create window: %s\n", SDL_GetError());
-            return false;
-        }
-        else
-        {
-            gMainRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
-        }
-    }
+    if ((gWindow = SDL_CreateWindow(
+         "An SDL2 window",                   // window title
+         SDL_WINDOWPOS_UNDEFINED,            // initial x position
+         SDL_WINDOWPOS_UNDEFINED,            // initial y position
+         640,                                // width, in pixels
+         400,                                // height, in pixels
+         SDL_WINDOW_SHOWN                    // flags - see below
+       )) == NULL) return showError();
+
+    gMainRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
+
     return true;
 }
 
