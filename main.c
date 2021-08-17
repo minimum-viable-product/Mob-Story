@@ -99,10 +99,12 @@ int main(int argc, char* argv[])
             SDL_RenderCopyEx(gMainRenderer, gTexture, &gSrcRectGear, &gDstRectLeft, rotate_angle + 23, NULL, SDL_FLIP_NONE);
             SDL_RenderCopyEx(gMainRenderer, gTexture, &gSrcRectGear, &gDstRectRight, -rotate_angle, NULL, SDL_FLIP_NONE);
         }
+
         gTexture = SDL_CreateTextureFromSurface(gMainRenderer, gSprite);
         SDL_RenderCopy(gMainRenderer, gTexture, &gSrcRectSprite, &gDstRectSprite);
         SDL_RenderPresent(gMainRenderer);
         SDL_Delay(100);
+
         while (SDL_PollEvent(&event))
         {
             if (event.type == SDL_KEYDOWN)
