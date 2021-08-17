@@ -8,7 +8,7 @@
 
 //global variables
 SDL_Window*   gWindow        = NULL; //The window we'll be rendering to
-SDL_Surface*  gScreenSurface = NULL; //The surface contained by the window
+//SDL_Surface*  gScreenSurface = NULL; //The surface contained by the window
 SDL_Surface*  gGear          = NULL; //The image of gear
 SDL_Surface*  gSprite        = NULL; //The image of person
 SDL_Surface*  gWoodTile      = NULL; //The image of wood tile
