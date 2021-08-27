@@ -58,10 +58,6 @@ int main(int argc, char* argv[])
         gDstRectWoodTile.y = 0;
         if ((clock() - t) >= 500)
         {
-            SDL_RenderClear(gMainRenderer);
-            SDL_RenderPresent(gMainRenderer);
-            SDL_SetRenderDrawColor(gMainRenderer, 0, 0, 255, 0);
-            SDL_RenderClear(gMainRenderer);
             gTexture = SDL_CreateTextureFromSurface(gMainRenderer, gWoodTile);
             for (int i = 0; i < 20; ++i)
             {
@@ -77,14 +73,11 @@ int main(int argc, char* argv[])
             SDL_RenderCopyEx(gMainRenderer, gTexture, &gSrcRectGear, &gDstRectRight, -rotate_angle, NULL, SDL_FLIP_NONE);
             rotate_angle += 10;
             if (rotate_angle == 360)  rotate_angle = 0;
+            
             t = clock();
         }
         else
         {
-            SDL_RenderClear(gMainRenderer);
-            SDL_RenderPresent(gMainRenderer);
-            SDL_SetRenderDrawColor(gMainRenderer, 0, 0, 255, 0);
-            SDL_RenderClear(gMainRenderer);
             gTexture = SDL_CreateTextureFromSurface(gMainRenderer, gWoodTile);
             for (int i = 0; i < 32; ++i)
             {
