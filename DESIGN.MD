@@ -2,7 +2,14 @@
 Concept by Robert Phares ([rjphares](https://github.com/rjphares))
 
 * Titus the Fox
+* The main character is edward
 * Main character is ex-mob
+* His wife/gf/friend/someone_he_likes gets kidnapped by the mob and he has to rescue her
+* So we can do like a scene of her getting kidnapped like donkey kong
+* Maybe shes on vacation?
+* Preferably somewhere international
+* They are human trafficers
+* So each level can levels of mob bad guys he has to kill
 * First level he is in the street and kind of has to escape street goons
 * Maybe has to do w/ a girl
 * Easy game to beat
@@ -17,3 +24,4 @@ Concept by Robert Phares ([rjphares](https://github.com/rjphares))
 * Add water level
 * Up down platformer
 * Escort robot (level) to sync clocks on systems and open door(s)
+* Pretty simple so we can change stuff easily
